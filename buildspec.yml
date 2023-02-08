@@ -5,11 +5,11 @@ phases:
     runtime-versions:
       nodejs: 16
     commands:
-      - echo Installing INSTALL source NPM dependencies...
+      - echo Installing phases INSTALL source NPM dependencies...
       - npm install
   pre_build:
     commands:
-      - echo Installing PRE_BUILD source NPM dependencies...
+      - echo Installing phases PRE_BUILD source NPM dependencies...
   build:
     commands:
       - echo Build started on `date`
