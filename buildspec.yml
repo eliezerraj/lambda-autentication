@@ -14,16 +14,14 @@ phases:
     commands:
       - echo BUILD started on `date`
       - echo BUILD Zipping deployment package...
-      - zip -r -q ../lambda-autentication.zip .
+      - zip -r -q ./lambda-autentication.zip .
   post_build:
       commands:
       - echo POST_BUILD Updating lambda Function...
       - aws lambda update-function-code --function-name lambda-autentication --zip-file fileb://lambda-autentication.zip
       - echo BUILD completed on `date`  
 artifacts:
-  type: zip
   files:
     - package.json
     - package-lock.json
     - "build/**/*"
-    - .ebextensions/**/*
