@@ -5,21 +5,21 @@ phases:
     runtime-versions:
       nodejs: 16
     commands:
-      - echo Installing phases INSTALL source NPM dependencies...
+      - echo INSTALL source NPM dependencies...
       - npm install
   pre_build:
     commands:
-      - echo Installing phases PRE_BUILD source NPM dependencies...
+      - echo PRE_BUILD tasks...
   build:
     commands:
-      - echo Build started on `date`
-      - echo "Zipping deployment package..."
-      - zip -r ../lambda-autentication.zip .
+      - echo BUILD started on `date`
+      - echo BUILD Zipping deployment package...
+      - zip -r -q ../lambda-autentication.zip .
     post_build:
       commands:
-      - echo "Updating lambda Function..."
+      - echo POST_BUILD Updating lambda Function...
       - aws lambda update-function-code --function-name lambda-autentication --zip-file fileb://lambda-autentication.zip
-      - echo Build completed on `date`  
+      - echo BUILD completed on `date`  
 artifacts:
   type: zip
   files:
