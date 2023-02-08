@@ -12,6 +12,8 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - npm install jsonwebtoken
+      - npm install npm install @aws-crypto/client-node
       - npm prune --production
     post_build:
       commands:
