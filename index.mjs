@@ -45,7 +45,7 @@ user2: "password2",
 // -------------------------------    
 
 export const handler = async(event) => {
-console.log("Login v1.0");
+  console.log('*** Loading lambda autentication Version 1');
 console.log("***********************");
 console.log(event);
 console.log("***********************");
