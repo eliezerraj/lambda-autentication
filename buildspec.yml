@@ -5,15 +5,14 @@ phases:
     runtime-versions:
       nodejs: 16
     commands:
+      - echo Installing INSTALL source NPM dependencies...
       - npm install
   pre_build:
     commands:
-      - echo Installing source NPM dependencies...
+      - echo Installing PRE_BUILD source NPM dependencies...
   build:
     commands:
       - echo Build started on `date`
-      - npm install jsonwebtoken
-      - npm install npm install @aws-crypto/client-node
       - npm prune --production
     post_build:
       commands:
