@@ -13,7 +13,6 @@ import jwt from 'jsonwebtoken';
 const jwtKey = "my_secret_key";
 
 const jwtExpirySeconds = 300;
-var statusCode = 401;
 var msg = {"message": "Succesfull"};
 var scope;
 var token;
@@ -59,19 +58,27 @@ export const handler = async(event) => {
   console.log("password  : ", password );
   console.log("db_users[user]  : ", db_users[user] );
 
-  response = {
-    statusCode: statusCode,
-    headers: headers,
-    body: JSON.stringify(msg),
-  };
-
   if (!user || !password) {
     msg.message = "user and password are mandatory";
+
+    response = {
+      statusCode: 401,
+      headers: headers,
+      body: JSON.stringify(msg),
+    };
+
     return response;
   }
 
   if (db_users[user] !== password) {
     msg.message = "user or password invalid";
+
+    response = {
+      statusCode: 401,
+      headers: headers,
+      body: JSON.stringify(msg),
+    };
+    
     return response;
   } 
     
@@ -89,18 +96,21 @@ export const handler = async(event) => {
   console.log("token:", token);
   
   encrypt_token = await encrypt(keyring, token, { encryptionContext: context });
+  
   console.log("-----------------------------------------");
   console.log("encrypt_token:", encrypt_token);
   console.log("-----------------------------------------");
-  console.log("encrypt_token.result:", encrypt_token.result.toString('base64'));
+  
+  var encrypt_token_b64 = encrypt_token.result.toString('base64');
+
+  console.log("encrypt_token.encrypt_token_b64:", encrypt_token_b64);
   console.log("-----------------------------------------");
     
-  statusCode = 200;
   response = {
-    statusCode: statusCode,
+    statusCode: 200,
     headers: headers,
     token: token,
-    encrypt_token: encrypt_token.result.toString('base64'),
+    encrypt_token: encrypt_token_b64,
     body: JSON.stringify(msg),
   };
 
