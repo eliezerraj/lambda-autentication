@@ -18,13 +18,13 @@ var msg = {"message": "Succesfull"};
 var scope;
 var token;
 var response;
+var encrypt_token;
 
 const headers = { 
   "Content-Type": "application/json", 
   "Access-Control-Allow-Origin" : "*" 
 };
 
-var encrypt_token;
 const { encrypt, decrypt } = buildClient(
   CommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT
 )
@@ -52,7 +52,6 @@ export const handler = async(event) => {
   console.log("***********************");
   console.log(event);
   console.log("***********************");
-
 
   const { user, password } = JSON.parse(event.body); //  JSON.parse(event.body);
 
@@ -90,11 +89,11 @@ export const handler = async(event) => {
   console.log("token:", token);
   
   encrypt_token = await encrypt(keyring, token, { encryptionContext: context });
-    //console.log("-----------------------------------------");
-    //console.log("encrypt_token:", encrypt_token);
-    //console.log("-----------------------------------------");
-    //console.log("encrypt_token.result:", encrypt_token.result.toString('base64'));
-    //console.log("-----------------------------------------");
+  console.log("-----------------------------------------");
+  console.log("encrypt_token:", encrypt_token);
+  console.log("-----------------------------------------");
+  console.log("encrypt_token.result:", encrypt_token.result.toString('base64'));
+  console.log("-----------------------------------------");
     
   statusCode = 200;
   response = {
