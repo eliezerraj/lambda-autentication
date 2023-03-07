@@ -53,7 +53,8 @@ export const handler = async(event) => {
   console.log(event);
   console.log("***********************");
 
-  const { user, password } = event.body;
+
+  const { user, password } = JSON.parse(event.body); //  JSON.parse(event.body);
 
   console.log("user  : ", user );
   console.log("password  : ", password );
