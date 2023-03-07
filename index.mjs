@@ -62,7 +62,7 @@ export const handler = async(event) => {
   response = {
     statusCode: statusCode,
     headers: headers,
-    body: msg,
+    body: JSON.stringify(msg),
   };
 
   if (!user || !password) {
