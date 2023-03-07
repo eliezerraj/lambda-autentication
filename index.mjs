@@ -59,10 +59,17 @@ export const handler = async(event) => {
   console.log("password  : ", password );
   console.log("db_users[user]  : ", db_users[user] );
 
+  if (db_users[user] !== password) {
+    console.log("deu ruim");
+  } else {
+    console.log("deu bom");
+  }
+
   if (!user || !password || db_users[user] !== password) {
     statusCode = 401;
     msg.message = "User or Password Inválido";
   } else {
+    
     scope = {
       scope: [ "openid", "profile", "email", "offline_access" ],
     };
