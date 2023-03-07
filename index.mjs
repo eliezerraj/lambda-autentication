@@ -59,37 +59,47 @@ export const handler = async(event) => {
   console.log("password  : ", password );
   console.log("db_users[user]  : ", db_users[user] );
 
-  if (db_users[user] !== password) {
-    console.log("deu ruim");
-  } else {
-    console.log("deu bom");
+  if (!user || !password) {
+    statusCode = 401;
+    msg.message = "User e/ou Password são obrigatpórios";
+    const response = {
+      statusCode: statusCode,
+      headers: headers,
+      body: msg,
+    };
+    return response;
   }
 
-  if (!user || !password || db_users[user] !== password) {
+  if (db_users[user] !== password) {
     statusCode = 401;
     msg.message = "User or Password Inválido";
-  } else {
-    
-    scope = {
-      scope: [ "openid", "profile", "email", "offline_access" ],
+    const response = {
+      statusCode: statusCode,
+      headers: headers,
+      body: msg,
     };
+    return response;
+  } 
+    
+  scope = {
+      scope: [ "openid", "profile", "email", "offline_access" ],
+  };
   
-    token =  jwt.sign({ user , scope},
+  token =  jwt.sign({ user , scope},
                               jwtKey, {
                                   algorithm: "HS256",
                                   expiresIn: jwtExpirySeconds,
                               });
           
-    console.log("-----------------------------------------");
-    console.log("token:", token);
+  console.log("-----------------------------------------");
+  console.log("token:", token);
   
-    encrypt_token = await encrypt(keyring, token, { encryptionContext: context });
+  encrypt_token = await encrypt(keyring, token, { encryptionContext: context });
     //console.log("-----------------------------------------");
     //console.log("encrypt_token:", encrypt_token);
     //console.log("-----------------------------------------");
     //console.log("encrypt_token.result:", encrypt_token.result.toString('base64'));
     //console.log("-----------------------------------------");
-  }
 
   const response = {
     statusCode: statusCode,
