@@ -101,7 +101,7 @@ export const handler = async(event) => {
     headers: headers,
     token: token,
     encrypt_token: encrypt_token.result.toString('base64'),
-    body: msg,
+    body: JSON.stringify(msg),
   };
 
   return response;
