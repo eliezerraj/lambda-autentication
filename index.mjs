@@ -13,7 +13,7 @@ import jwt from 'jsonwebtoken';
 const jwtKey = "my_secret_key";
 
 const jwtExpirySeconds = 300;
-var statusCode = 200;
+var statusCode = 401;
 var msg = {"message": "Succesfull"};
 var scope;
 var token;
@@ -66,13 +66,11 @@ export const handler = async(event) => {
   };
 
   if (!user || !password) {
-    statusCode = 401;
     msg.message = "user and password are mandatory";
     return response;
   }
 
   if (db_users[user] !== password) {
-    statusCode = 401;
     msg.message = "user or password invalid";
     return response;
   } 
@@ -96,7 +94,8 @@ export const handler = async(event) => {
     //console.log("-----------------------------------------");
     //console.log("encrypt_token.result:", encrypt_token.result.toString('base64'));
     //console.log("-----------------------------------------");
-
+    
+  statusCode = 200;
   response = {
     statusCode: statusCode,
     headers: headers,
