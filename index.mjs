@@ -105,13 +105,17 @@ export const handler = async(event) => {
 
   console.log("encrypt_token.encrypt_token_b64:", encrypt_token_b64);
   console.log("-----------------------------------------");
-    
+ 
+  const payload = {
+    token: token,
+    encrypt_token: encrypt_token_b64,
+    message: 'Succesfull',
+  }
+
   response = {
     statusCode: 200,
     headers: headers,
-    token: token,
-    encrypt_token: encrypt_token_b64,
-    body: JSON.stringify(msg),
+    body: JSON.stringify(payload),
   };
 
   return response;
