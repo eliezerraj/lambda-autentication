@@ -14,8 +14,10 @@ const jwtKey = "my_secret_key";
 
 const jwtExpirySeconds = 300;
 var statusCode = 200;
-
 var msg = {"message": "Succesfull"};
+var scope;
+var token;
+var response;
 
 const headers = { 
   "Content-Type": "application/json", 
@@ -37,9 +39,6 @@ const context = {
     origin: 'us-east-2',
 };
 
-var scope;
-var token;
-
 // -------------------------------    
 const db_users = {
   user1: "password1",
@@ -48,6 +47,7 @@ const db_users = {
 // -------------------------------    
 
 export const handler = async(event) => {
+
   console.log('*** Loading lambda autentication Version 1');
   console.log("***********************");
   console.log(event);
@@ -59,25 +59,21 @@ export const handler = async(event) => {
   console.log("password  : ", password );
   console.log("db_users[user]  : ", db_users[user] );
 
+  response = {
+    statusCode: statusCode,
+    headers: headers,
+    body: msg,
+  };
+
   if (!user || !password) {
     statusCode = 401;
-    msg.message = "User e/ou Password são obrigatpórios";
-    const response = {
-      statusCode: statusCode,
-      headers: headers,
-      body: msg,
-    };
+    msg.message = "user and password are mandatory";
     return response;
   }
 
   if (db_users[user] !== password) {
     statusCode = 401;
-    msg.message = "User or Password Inválido";
-    const response = {
-      statusCode: statusCode,
-      headers: headers,
-      body: msg,
-    };
+    msg.message = "user or password invalid";
     return response;
   } 
     
@@ -101,7 +97,7 @@ export const handler = async(event) => {
     //console.log("encrypt_token.result:", encrypt_token.result.toString('base64'));
     //console.log("-----------------------------------------");
 
-  const response = {
+  response = {
     statusCode: statusCode,
     headers: headers,
     token: token,
